@@ -1,5 +1,8 @@
 # CS529 Visual Data Science Final Project
 
+## Project Workbook: 
+
+[Here](https://docs.google.com/document/d/14HWqt3rO33DVxoN5Qw0ts7aAU1oidZiz36vRC-4XmVM/edit?usp=sharing) is our project workbook. 
 						
 ## Team Members:  
 
