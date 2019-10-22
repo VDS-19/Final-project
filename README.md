@@ -15,9 +15,9 @@
 
 ## Clients: 
 
-[Prof. Ursula Perez-Salas Assistant] (https://phys.uic.edu/profiles/perez-salas-ursula/)
+[Prof. Ursula Perez-Salas Assistant](https://phys.uic.edu/profiles/perez-salas-ursula/)
 
-[Yangmingyue Liu] (https://phys.uic.edu/profiles/liu-yangmingyue/) Ph.D candidate 
+[Yangmingyue Liu](https://phys.uic.edu/profiles/liu-yangmingyue/) Ph.D candidate 
 
 ## Abstract: 
 
