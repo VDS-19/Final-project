@@ -1,1 +1,4 @@
 Lanxin ZHang
+* Discuss with teamates to design the protype.
+* Visualizing datasets meets requirements of client.
+* Schedule a meeting with client to get feedbacks.
