@@ -1,0 +1,34 @@
+This simulation is using so-called coarse-grained MARTINI force field, in which each bead (the smallest resolution element) 
+represents a chemical group (3-4 atoms or more), not a single atom. Groups of these beads form residues which make molecules. 
+Typically, smaller molecules have only one residue; large molecules, like proteins or DNA, can have multiple residues.
+
+The dataset contains 21 residue types. One of them is POPC, the lipid molecule that forms the membrane bilayer. 
+The rest are amino acids forming the protein.
+
+There are 17 bead types, abbreviated as BB, C{1..2}A, C{1..3}B, C4{A..B}, D3A, GL{1..2}, NC3, PO4, and SC{1..4} 
+(using the brace expansion notation).
+
+Water molecules were present in the simulation but were removed from the output to save storage space.
+
+The file sim.part0001_protein_lipid_popc.gro describes the initial setup with 9453 beads and 1756 residues 
+in the standard GRO format, stored as human-readable ASCII. The main body of the file lists all beads, one line per bead. 
+Here we describe formatting of all fields using the first bead as an example:
+
+'    1' is the residue number (5 characters): 1 to 1756
+'PRO  ' is the residue name (5 characters): 21 unique names
+          ALA=alanine ARG=arginine ASN=asparagine ASP=aspartate
+          CYS=cysteine GLN=glutamine GLU=glutamate GLY=glycine
+          HIS=histidine ILE=isoleucine LEU=leucine LYS=lysine
+          MET=methionine PHE=phenylalanine POPC=ourLipid PRO=proline
+          SER=serine THR=threonine TRP=tryptophan TYR=tyrosine
+          VAL=valine
+'   BB' is the bead name (5 characters): 17 unique elements
+          BB=backbone C{1..2}A C{1..3}B C4{A..B} D3A GL{1..2}
+          NC3=choline PO4=phosphate SC{1..4}
+'    1' is the bead number (5 characters): 1 to 9453
+'   6.692' is x-position in nm (8 characters)
+'   8.569' is y-position in nm (8 characters)
+'   8.462' is z-position in nm (8 characters)
+'  0.0038' is x-velocity in nm/ps = km/s (8 characters)
+' -0.0789' is y-velocity in nm/ps = km/s (8 characters)
+' -0.1406' is z-velocity in nm/ps = km/s (8 characters)
