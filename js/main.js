@@ -39,14 +39,18 @@ const Scene = function(options) {
 	self.scene.background = new THREE.Color( "#ffffff" );
 	// setup the camera
 	self.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
-	self.camera.position.set(0,2,20);
-	self.camera.lookAt(0,0,0);
+	self.camera.position.set(-12,12,10);
+    self.camera.lookAt(new THREE.Vector3(0,0,0));
+	// self.camera.position.set(0,2,20);
+	// self.camera.lookAt(0,0,0);
 	
 	// Add a directional light to show off the objects
 	const light = new THREE.DirectionalLight( "#ffffff", 1.5);
 	// Position the light out from the scene, pointing at the origin
-	light.position.set(0,2,20);
-	light.lookAt(0,0,0);
+	// light.position.set(0,2,20);
+	// light.lookAt(0,0,0);
+	self.camera.position.set(-12,12,10);
+    self.camera.lookAt(new THREE.Vector3(0,0,0));
 	// add the light to the camera and the camera to the scene
 	self.camera.add(light);
 	self.scene.add(self.camera);
@@ -151,16 +155,15 @@ const ParticleSystem = function() {
 		
         for(var i = 0; i < data.length;i ++ )
         {
-			console.log("hellow!");
 			positions.push(data[i]['X'],data[i]['Y'],data[i]['Z']);
-			console.log(data[i]['X'])
+			// console.log(data[i]['X'])
             var color = new THREE.Color();
 			// color.set(colorSequence(data[i]['X']));
 			
-			color.set(colorSequence(10));	// Some random number for now
-			console.log(color);
-			colors.push(color.r, color.g, color.b);
-			// colors.push(100, 200, 10)
+			// color.set(colorSequence(10));	// Some random number for now
+			// console.log(color);
+			// colors.push(color.r, color.g, color.b);
+			colors.push(1, 0, 0)
 		} 
         starsGeometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
         starsGeometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
@@ -177,7 +180,7 @@ const ParticleSystem = function() {
 
 
         var plane_geometry = new THREE.PlaneGeometry(15,15);
-        var plane_material = new THREE.MeshBasicMaterial( {color: 0x1C7AF2, side: THREE.DoubleSide, transparent:true, opacity:0.9 } );
+        var plane_material = new THREE.MeshBasicMaterial( {color: "#ccebc5", side: THREE.DoubleSide, transparent:true, opacity:0.9 } );
         plane = new THREE.Mesh( plane_geometry, plane_material );
         plane.position.set(0, -2, 0)
 		sceneObject.add( plane );
