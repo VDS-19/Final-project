@@ -10564,7 +10564,16 @@ a:focus {
   height: 10rem;
   width: 100%;
 }
-
+/* @media (min-width: 768px) {
+  .particleDiv {
+    height: 20rem;
+  }
+}
+.particleDiv
+{
+	width:90%;
+	height:90%;
+} */
 @media (min-width: 768px) {
   .chart-bar {
     height: 20rem;

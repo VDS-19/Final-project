@@ -16,7 +16,15 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="css/sb-admin-2.min.css" rel="stylesheet"> </link>
+  <link rel="stylesheet" href="css/main.css" />
+  
+  <script   src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="lib/js/three.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.6/d3.min.js"></script>
+  
+  <script src="js/main.js"></script>
 
 </head>
 
@@ -444,6 +452,12 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-area">
+					  <div class="particleDiv" >
+					     <div id=scene >
+							 <body onload="App.start()";> </body>
+					      </div>
+					  </div>
+					  
                     <!-- <canvas id="myAreaChart"></canvas> -->
                   </div>
                 </div>
