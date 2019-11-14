@@ -49,8 +49,8 @@ const Scene = function(options) {
 	// Position the light out from the scene, pointing at the origin
 	// light.position.set(0,2,20);
 	// light.lookAt(0,0,0);
-	self.camera.position.set(-12,12,10);
-    self.camera.lookAt(new THREE.Vector3(0,0,0));
+	light.position.set(12,12,10);
+    light.lookAt(new THREE.Vector3(0,0,0));
 	// add the light to the camera and the camera to the scene
 	self.camera.add(light);
 	self.scene.add(self.camera);
@@ -155,7 +155,7 @@ const ParticleSystem = function() {
 		
         for(var i = 0; i < data.length;i ++ )
         {
-			positions.push(data[i]['X'],data[i]['Y'],data[i]['Z']);
+			positions.push(data[i]['X'],-data[i]['Z'],data[i]['Y']);
 			// console.log(data[i]['X'])
             var color = new THREE.Color();
 			// color.set(colorSequence(data[i]['X']));
@@ -172,7 +172,7 @@ const ParticleSystem = function() {
 
         var starsMaterial = new THREE.PointsMaterial( { size: 0.1, vertexColors: THREE.VertexColors, opacity:0.7, transparent:true } );
         points = new THREE.Points( starsGeometry, starsMaterial );
-        points.position.set(0, -7, 0)
+        points.position.set(-5, 10, -5)
 		sceneObject.add(points);
 		// var starsMaterial = new THREE.PointsMaterial( {size:0.1,vertexColors: true, side:THREE.DoubleSide, sizeAttenuation: true} );
 		// var starField = new THREE.Points( starsGeometry, starsMaterial );
@@ -182,7 +182,7 @@ const ParticleSystem = function() {
         var plane_geometry = new THREE.PlaneGeometry(15,15);
         var plane_material = new THREE.MeshBasicMaterial( {color: "#ccebc5", side: THREE.DoubleSide, transparent:true, opacity:0.9 } );
         plane = new THREE.Mesh( plane_geometry, plane_material );
-        plane.position.set(0, -2, 0)
+        plane.position.set(2, 2, 0)
 		sceneObject.add( plane );
 			
 			
