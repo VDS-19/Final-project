@@ -32,3 +32,8 @@ Here we describe formatting of all fields using the first bead as an example:
 '  0.0038' is x-velocity in nm/ps = km/s (8 characters)
 ' -0.0789' is y-velocity in nm/ps = km/s (8 characters)
 ' -0.1406' is z-velocity in nm/ps = km/s (8 characters)
+
+
+The files 5us_traj_popc_protein_lipid_popc.xtc and 15us_traj_protein_lipid_popc.xtc 
+store the trajectory in the standard XTC format during the first 5 microseconds (2502 frames) and 
+the last 15 microseconds (8502 frames) of the simulation, respectively.
