@@ -1,9 +1,10 @@
 var App = App || {};
 
-var colorSequence = d3.scaleSequential(d3.interpolateBlues).domain([0, 100]);
+var colorSequence = d3.scaleSequential(d3.interpolateBlues).domain([100, 218]);
 var orangeSequence = d3.scaleSequential(d3.interpolateOranges).domain([0, 100]);
 
 var points, plane, starsGeometry;
+		
 
 (function() {
 
@@ -152,18 +153,33 @@ const ParticleSystem = function() {
 		starsGeometry = new THREE.BufferGeometry()
         var positions = [];
 		var colors = [];
-		
+		var residues = ['LYS', 'GLN', 'THR', 'TYR', 'VAL', 'LEU', 'ALA', 'PHE', 'ILE', 'CYS', 'GLU', 
+'POPC', 'MET', 'SER', 'ARG', 'ASP', 'PRO', 'GLY', 'ASN', 'HIS', 'TRP']
+		var counts = [201, 124, 132, 144, 186, 218, 113, 264, 200, 12, 124, 6912, 62, 154, 153, 90, 59, 95, 86, 68, 55]
+
         for(var i = 0; i < data.length;i ++ )
         {
 			positions.push(data[i]['X'],-data[i]['Z'],data[i]['Y']);
-			// console.log(data[i]['X'])
-            var color = new THREE.Color();
-			// color.set(colorSequence(data[i]['X']));
+			var color = new THREE.Color();
+			var residue = -1
+			for(var j = 0; j < residues.length; j ++ ){
+				if (data[i]['type'].includes(residues[j])){
+					residue = j
+					break;
+				}
+			}
+
 			
-			// color.set(colorSequence(10));	// Some random number for now
-			// console.log(color);
-			// colors.push(color.r, color.g, color.b);
-			colors.push(1, 0, 0)
+			if (data[i]['type'].includes("POPC"))
+            {
+                colors.push(1, 0, 0)
+			} 
+			else {
+				// colors.push(0, 0, 1)
+				color.set(colorSequence(counts[residue]));
+				colors.push(color.r, color.g, color.b);
+
+			} 
 		} 
         starsGeometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
         starsGeometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
