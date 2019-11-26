@@ -112,7 +112,7 @@ var ParticleSystem = function() {
 		// console.log("hello");
 		// plane.position.set(0, 5, z);
 		// sceneObject.add(plane);
-		// self.create2D();
+		self.create2D();
 		// 	// console.log("hello");
 		d3.select("#myRange").on("input", function(d) {
 			
@@ -163,59 +163,54 @@ var ParticleSystem = function() {
     };
 	
 
-//    self.create2D = function()
-//    {
-// 	   d3.select("svg").remove();
-// 	   var points=[];
-// 	   // plane.position.set(0, 5, z);
-// 	   sceneObject.add(plane);
-// 	   // console.log(z);
-// 	   for ( var i = 0; i < data.length; i ++ ) {
-// 		   
-// 		   if((data[i]['Y'] >= z-0.05) && (data[i]['Y'] < z+0.05))
-// 		   {
-// 			   // console.log(z);
-// 			   // console.log(data[i]['Z']);
-// 		       points.push({"X": data[i]['X'], "Y": data[i]['Z'],"concentration":data[i]['concentration']});
-// 		   }  
-// 		   }
-// 	   var screenx = d3.scaleLinear()
-// 	       .range([0, 500]);
-// 	   
-// 	   var screeny = d3.scaleLinear()
-// 	       .range([500, 0]);
-// 	   var screensvg=d3.select("#screen")
-// 	   				.append("svg")
-// 	   				.attr("width",500)
-// 	   				.attr("height", 500)
-// 	   				.append("g")
-// 	   				.attr("transform", "translate(5,5)");   
-// 	   	screenx.domain([bounds.minX, bounds.maxX]);
-// 	   	screeny.domain([bounds.minY, bounds.maxY]);
-// 	   
-// 	     screensvg.selectAll('circle')
-// 	               .data(points)
-// 	               .enter()
-// 	               .append('circle')
-// 	               .attr('class','point_value')
-// 	               .attr("r", 3)
-// 	               .attr('cx', function(d) { return screenx(d.X); })
-// 	               .attr('cy', function(d) { return screeny(d.Y); })
-// 	               .style('fill', function(d) { return "#ef3b2c"; });    
-// 	   
-// 	     // d3.select("#myRange").on("input", function(d) {
-// 	     // 	
-// 	     //       z = this.value / 100.0;
-// 	     //       // console.log(z);
-// 	     //       // plane.position.set(0, 5, z);
-// 	     //       // zBounds[0] = ;
-// 	     //       // zBounds[1] = ;
-// 	     //       // console.log(z - 0.01 + "-" + z + 0.01);
-// 	     //       self.create2D();
-// 	     // 	  
-// 	     //     });
-//    };
-// 
+   self.create2D = function()
+   {
+	   d3.select("svg").remove();
+	   var points=[];
+	   
+	   for ( var i = 0; i < data.length; i ++ ) {
+		   
+		 
+			   // console.log(z);
+			   // console.log(data[i]['X']/700+data[i]['U']*time/1000);
+			   
+		       points.push({"X": data[i]['X']/700+data[i]['U']*time/1000, "Y": data[i]['Y']/700+data[i]['V']*time/1000,"concentration":data[i]['concentration']});
+		    
+		   }
+	   var screenx = d3.scaleLinear()
+	       .range([0, 10000]);
+	   
+	   var screeny = d3.scaleLinear()
+	       .range([10000, 0]);
+	   var screensvg=d3.select("#screen")
+	   				.append("svg")
+	   				.attr("width",500)
+	   				.attr("height", 500)
+					
+	   				.append("g")
+	   				.attr("transform", "translate(5,5)");
+					
+					// .attr("background","blue")
+	   	// screenx.domain([bounds.minX, -bounds.maxX]);
+	   	// screeny.domain([bounds.minY, -bounds.maxY]);
+	   // console.log(bounds.maxX);
+	     screensvg.selectAll('circle')
+	               .data(points)
+	               .enter()
+	               .append('circle')
+	               .attr('class','point_value')
+	               .attr("r", 2)
+				   .attr("opacity",0.3)
+	               .attr('cx', function(d) { return -screenx(d.X)/1000; })
+	               .attr('cy', function(d) { return screeny(d.Y)/1000; })
+	               .style('fill', function(d) { return "#ef3b2c"; });
+					
+				   
+					
+					 
+	  
+   };
+
 
 
 
