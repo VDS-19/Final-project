@@ -52,7 +52,7 @@ var ParticleSystem = function() {
 		// 	dotGeometry.vertices.push(new THREE.Vector3( data[i]['X'], data[i]['Y'],data[i]['Z']));
 		// 	var dotMaterial = new THREE.PointsMaterial( { size: 3, sizeAttenuation: false } );
 		// 	var dot = new THREE.Points( dotGeometry, dotMaterial );
-		// 	// sceneObject.add( dot );
+		// 	sceneObject.add( dot );
 		// }
 		// get the radius and height based on the data bounds
 		// var radius = (bounds.maxX - bounds.minX)/2.0 + 1;
@@ -63,28 +63,28 @@ var ParticleSystem = function() {
 		// // var geometry = new THREE.CylinderGeometry( radius, radius, height, 32 );
 		// // var material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe: true} );
 		// // var cylinder = new THREE.Mesh( geometry, material );
-		// var starsGeometry = new THREE.Geometry();
+		var starsGeometry = new THREE.Geometry();
 		// 
-		// // for ( var i = 0; i < data.length; i ++ ) {
+		for ( var i = 0; i < data.length; i ++ ) {
 		// 
-		// 	// var star = new THREE.Vector3();
-		// 	// // star.x = THREE.Math.randFloatSpread( data[i]['x'] );
-		// 	// // star.y = THREE.Math.randFloatSpread( data[i]['Y']);
-		// 	// // star.z = THREE.Math.randFloatSpread( data[i]['Z'] );
-		// 	// // star.x = THREE.Math.randFloatSpread( 2000 );
-		// 	// // 	star.y = THREE.Math.randFloatSpread( 2000 );
-		// 	// // 	star.z = THREE.Math.randFloatSpread( 2000 );
-		// 	// // 	console.log(star.x);
-		// 	// 
-		// 	// star.x= data[i]['X'];
-		// 	// star.y =  data[i]['Z'];
-		//  //    star.z =  data[i]['Y'];
-		// 	// // console.log(star.x);
+			var star = new THREE.Vector3();
+			// star.x = THREE.Math.randFloatSpread( data[i]['x'] );
+			// star.y = THREE.Math.randFloatSpread( data[i]['Y']);
+			// star.z = THREE.Math.randFloatSpread( data[i]['Z'] );
+			// star.x = THREE.Math.randFloatSpread( 2000 );
+			// 	star.y = THREE.Math.randFloatSpread( 2000 );
+			// 	star.z = THREE.Math.randFloatSpread( 2000 );
+			// 	console.log(star.x);
+			
+			star.x= data[i]['X']/1000;
+			star.y =  data[i]['Y']/1000;
+		    star.z =  data[i]['Z']/1000;
+			// console.log(star.y);
 		// 	// // if(Math.abs(star.x)<=radius/2&&Math.abs(star.y)<=height&&Math.abs(star.z)<=radius/2)
 		// 	// {
-		// 	// 	starsGeometry.vertices.push( star );
+			starsGeometry.vertices.push( star );
 		// 	// 	if(data[i]['concentration']<=1)
-		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
+				 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
 		// 	// 	else if(data[i]['concentration']<=2)
 		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fc9272"));
 		// 	// 	else if(data[i]['concentration']<=3)
@@ -96,20 +96,21 @@ var ParticleSystem = function() {
 		// 	// 		else if(data[i]['concentration']<=6)
 		// 	// 		 starsGeometry.colors.push(new THREE.Color("#a50f15"));
 		// 	// 		else
-		// 	// 		  starsGeometry.colors.push(new THREE.Color("#67000d"));
+				// starsGeometry.colors.push(new THREE.Color("#67000d"));
 		// 	// 		  
 		// 	// }
 		// 	
 		// 
-		// // }
+		}
 		// var geometry = new THREE.PlaneGeometry(14,14);
 		// var material = new THREE.MeshBasicMaterial( {color: "#ccebc5", side: THREE.DoubleSide} );
 	 //    plane = new THREE.Mesh( geometry, material );
 		// 
-		// var starsMaterial = new THREE.PointsMaterial( {size:0.05,vertexColors: true, side:THREE.DoubleSide,
-  //           sizeAttenuation: true} );
-		// var starField = new THREE.Points( starsGeometry, starsMaterial );
-		// sceneObject.add( starField );
+		var starsMaterial = new THREE.PointsMaterial( {size:0.07,vertexColors: true, side:THREE.DoubleSide,
+		            sizeAttenuation: true} );
+		var starField = new THREE.Points( starsGeometry, starsMaterial );
+		sceneObject.add( starField );
+		// console.log("hello");
 		// plane.position.set(0, 5, z);
 		// sceneObject.add(plane);
 		// self.create2D();

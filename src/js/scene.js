@@ -18,13 +18,13 @@ var Scene = function(options) {
 
     // setup the camera
     self.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
-    self.camera.position.set(0,2,20);
-    self.camera.lookAt(0,0,0);
+    self.camera.position.set(-50,-50,-50);
+    self.camera.lookAt(-1000,-1000,-1000);
 
     // Add a directional light to show off the objects
     var light = new THREE.DirectionalLight( 0xffffff, 1.5);
     // Position the light out from the scene, pointing at the origin
-    light.position.set(0,2,20);
+    light.position.set(5,5,5);
     light.lookAt(0,0,0);
 
     // add the light to the camera and the camera to the scene
