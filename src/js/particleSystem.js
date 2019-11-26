@@ -2,7 +2,7 @@
 
 /* Get or create the application global variable */
 var App = App || {};
-var z=0;
+var time=0;
 
 var ParticleSystem = function() {
 
@@ -40,6 +40,7 @@ var ParticleSystem = function() {
     self.createParticleSystem = function() {
 		
 		
+		
         // use self.data to create the particle system
 		// var radius = (bounds.maxX - bounds.minX)/2.0 + 1;
 		// var height = (bounds.maxY - bounds.minY) + 1;
@@ -68,23 +69,19 @@ var ParticleSystem = function() {
 		for ( var i = 0; i < data.length; i ++ ) {
 		// 
 			var star = new THREE.Vector3();
-			// star.x = THREE.Math.randFloatSpread( data[i]['x'] );
-			// star.y = THREE.Math.randFloatSpread( data[i]['Y']);
-			// star.z = THREE.Math.randFloatSpread( data[i]['Z'] );
-			// star.x = THREE.Math.randFloatSpread( 2000 );
-			// 	star.y = THREE.Math.randFloatSpread( 2000 );
-			// 	star.z = THREE.Math.randFloatSpread( 2000 );
-			// 	console.log(star.x);
 			
-			star.x= data[i]['X']/1000;
-			star.y =  data[i]['Y']/1000;
-		    star.z =  data[i]['Z']/1000;
+			
+			star.x= data[i]['X']/700+data[i]['U']*time/1000;
+			star.y =  data[i]['Y']/700+data[i]['V']*time/1000;
+		    star.z =  data[i]['Z']/700+data[i]['W']*time/1000;
 			// console.log(star.y);
 		// 	// // if(Math.abs(star.x)<=radius/2&&Math.abs(star.y)<=height&&Math.abs(star.z)<=radius/2)
 		// 	// {
 			starsGeometry.vertices.push( star );
+			// starsGeometry.computeBoundingSphere();
 		// 	// 	if(data[i]['concentration']<=1)
 				 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
+				 starsGeometry.vertices.size=0.0;
 		// 	// 	else if(data[i]['concentration']<=2)
 		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fc9272"));
 		// 	// 	else if(data[i]['concentration']<=3)
@@ -106,28 +103,61 @@ var ParticleSystem = function() {
 		// var material = new THREE.MeshBasicMaterial( {color: "#ccebc5", side: THREE.DoubleSide} );
 	 //    plane = new THREE.Mesh( geometry, material );
 		// 
-		var starsMaterial = new THREE.PointsMaterial( {size:0.07,vertexColors: true, side:THREE.DoubleSide,
-		            sizeAttenuation: true} );
+		var starsMaterial = new THREE.PointsMaterial( {size: 0.09,vertexColors: true, transparent: true, side:THREE.DoubleSide,
+		            sizeAttenuation: true,opacity: 1} );
 		var starField = new THREE.Points( starsGeometry, starsMaterial );
+		// var light = new THREE.AmbientLight( 0x4040 ); // soft white light
+		// sceneObject.add( light );
 		sceneObject.add( starField );
 		// console.log("hello");
 		// plane.position.set(0, 5, z);
 		// sceneObject.add(plane);
 		// self.create2D();
 		// 	// console.log("hello");
-		// d3.select("#myRange").on("input", function(d) {
-		// 	
-		//       z = this.value / 100.0;
-		//       // console.log(z);
-		//       plane.position.set(0, 5, z);
-		//       // zBounds[0] = ;
-		//       // zBounds[1] = ;
-		//       // console.log(z - 0.01 + "-" + z + 0.01);
-		//       
-		// 	  
-		// 	  sceneObject.remove(plane);
-		// 	  self.createParticleSystem();
-		//     });
+		d3.select("#myRange").on("input", function(d) {
+			
+		      // z = this.value / 100.0;
+		      // console.log(z);
+		      // plane.position.set(0, 5, z);
+		      // zBounds[0] = ;
+		      // zBounds[1] = ;
+		      // console.log(z - 0.01 + "-" + z + 0.01);
+			  sceneObject.remove(starField);
+			 time=this.value;
+			 self.createParticleSystem();
+			 
+		   //    for(var i=0;i<starsGeometry.vertices.length;i++)
+			  // {
+				 //  starsGeometry.vertices[i].x=data[i]['X']/700+data[i]['U']*this.value;
+				 //  starsGeometry.vertices[i].y=100;
+				 //  starsGeometry.vertices[i].x=100;
+				 // 
+				 //  // console.log(data[i]['U']*this.value);
+			  // }
+			  // 
+			  //  starField.starsGeometry= starsGeometry;
+			  // // console.log("done");
+			  // sceneObject.add(starField);
+			  // starsGeometry = new THREE.Geometry();
+			  // for ( var i = 0; i < data.length; i ++ ) {
+				 //  star.x= data[i]['X']/700;
+				 //  star.y =  data[i]['Y']/700;
+				 //  star.z =  data[i]['Z']/700;
+				 //  starsGeometry.vertices.push( star );
+				 //  console.log(star.x);
+				 //  // 	// 	if(data[i]['concentration']<=1)
+				 //  		 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
+				 //  }
+				 //  starsMaterial = new THREE.PointsMaterial( {size:0.07,vertexColors: true, transparent: true, side:THREE.DoubleSide,
+				 //              sizeAttenuation: true,opacity: 1} );
+					// starField = new THREE.Points( starsGeometry, starsMaterial );
+					// 		  
+				 //  sceneObject.add( starField );
+				 //  return sceneObject;
+			  // self.createParticleSystem();
+		    });
+			
+			
 			
 		
     };
