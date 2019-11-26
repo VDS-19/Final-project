@@ -1,128 +1,21 @@
-<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UNIVERSE</title>
   <style>
-    body {
-      font-family: sans-serif;
-      font-size: 18px;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 1em;
-    }
-
-    h1, h2 {
-      text-align: center;
-    }
-
-    a, a:visited {
-      color: #63637f;
-    }
-
-    a:hover {
-      -webkit-animation:rainbow 1s infinite;
-      animation:rainbow 1s infinite;
-      text-decoration: none;
-    }
-
-    @-webkit-keyframes rainbow {
-      0% {color: #ff0000;}
-      10% {color: #ff8000;}
-      20% {color: #ffff00;}
-      30% {color: #80ff00;}
-      40% {color: #00ff00;}
-      50% {color: #00ff80;}
-      60% {color: #00ffff;}
-      70% {color: #0080ff;}
-      80% {color: #0000ff;}
-      90% {color: #8000ff;}
-      100% {color: #ff0080;}
-    }
-    @keyframes rainbow {
-      0% {color: #ff0000;}
-      10% {color: #ff8000;}
-      20% {color: #ffff00;}
-      30% {color: #80ff00;}
-      40% {color: #00ff00;}
-      50% {color: #00ff80;}
-      60% {color: #00ffff;}
-      70% {color: #0080ff;}
-      80% {color: #0000ff;}
-      90% {color: #8000ff;}
-      100% {color: #ff0080;}
-    }
-
-    .example-container {
-      display: flex;
-    }
-
-    .example {
-      flex: 1;
-      padding: 0 0.5em;
-      max-width: 33%;
-      max-height: 11em;
-      overflow: hidden;
-
-      cursor: pointer;
-    }
-
-    .example img {
-      max-width: 100%;
+    #main-container {
+      width: 100%;
+      height: 100%;
     }
   </style>
-</head>
+<head>
 <body>
-  <h1>Universe</h1>
-  <h3>About This project</h3>
-  <p>
-   
-  </p>
-  <p>
-    
-	
-  </p>
-  <p>
-    <!-- This library generalizes work that is currently used on <strong><a href="https://www.meteorshowers.org/">Meteor Showers</a></strong>, <strong><a href="http://dinosaurpictures.org/ancient-earth">Ancient Earth</a></strong>, <a href="http://www.asterank.com/">Asterank</a>, <a href="http://www.ianww.com/ceres/">and</a> <a href="http://www.asterank.com/exoplanets">many</a> <a href="http://www.ianww.com/pluto/">other</a> <a href="http://www.ianww.com/moonviz/">sites</a> into a single open-source 3D engine for space that is both accurate and visually stunning. -->
-  </p>
-  <div class="example-container">
-    <div class="example">
-      <!-- <a href="https://www.meteorshowers.org/">
-        <img src="http://i.imgur.com/tKUogDE.png" />
-      </a> -->
-    </div>
-    <div class="example">
-      <!-- <a href="http://dinosaurpictures.org/ancient-earth#240">
-        <img src="http://i.imgur.com/Ya57O3t.png" />
-      </a> -->
-    </div>
-    <div class="example">
-      <!-- <a href="http://www.asterank.com/">
-        <img src="http://i.imgur.com/Wm6gobE.png" />
-      </a> -->
-    </div>
-  </div>
-  <p>
-    <!-- <strong><a href="build/spacekit.js" download>Download it here</a></strong> or include with: -->
-  </p>
-  <p>
-    <!-- <code>&lt;script src=&quot;https://typpo.github.io/spacekit/build/spacekit.js&quot;&gt;&lt;/script&gt;</code> -->
-  </p>
-  <h2>
-    <!-- <a href="docs/">Documentation</a>
-    &middot;
-    <a href="https://github.com/typpo/spacekit">Source Code</a>
-    &middot;
-    <a href="examples/">Examples</a> -->
-  </h2>
-  <!-- <h3>Questions and Contact</h3> -->
-  <p>
-    <!-- <a href="mailto:spacekit@ianww.com">Send an email</a> or <a href="https://github.com/typpo/spacekit/issues">open a Github issue</a> if you have questions or want to get in touch! -->
-  </p>
-  <div>
-    <script async src="https://jsfiddle.net/typpo/x9nv8jg0/12/embed/js,html,result/"></script>
-  </div>
+<div id="main-container">
+</div>
+
+<script src="examples/build/spacekit.js"></script>
+
+<script src="main.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140394693-1"></script>
 <script>
