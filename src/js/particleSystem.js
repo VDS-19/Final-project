@@ -16,134 +16,9 @@ var ParticleSystem = function() {
     var sceneObject = new THREE.Group();
 	var plane;
     // bounds of the data
-    var bounds = {};
-
-    // create the containment box.
-    // This cylinder is only to guide development.
-    // TODO: Remove after the data has been rendered
-    self.drawContainment = function() {
-
-        // get the radius and height based on the data bounds
-        var radius = (bounds.maxX - bounds.minX)/2.0 + 1;
-        var height = (bounds.maxY - bounds.minY) + 1;
-
-        // create a cylinder to contain the particle system
-        var geometry = new THREE.CylinderGeometry( radius, radius, height, 32 );
-        var material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe: true} );
-        var cylinder = new THREE.Mesh( geometry, material );
-
-        // add the containment to the scene
-        sceneObject.add(cylinder);
-    };
-
-    // creates the particle system
-    self.createParticleSystem = function() {
-		
-		
-		
-		var starsGeometry = new THREE.Geometry();
-		// 
-		for ( var i = 0; i < data.length; i ++ ) {
-
-			var star = new THREE.Vector3();
-			
-			
-			star.x= data[i]['X']/700+data[i]['U']*time/1000;
-			star.y =  data[i]['Y']/700+data[i]['V']*time/1000;
-		    star.z =  data[i]['Z']/700+data[i]['W']*time/1000;
-			
-			starsGeometry.vertices.push( star );
-			
-				 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
-				 starsGeometry.vertices.size=0.0;
-
-		
-		}
-		
-		var starsMaterial = new THREE.PointsMaterial( {size: 0.09,vertexColors: true, transparent: true, side:THREE.DoubleSide,
-		            sizeAttenuation: true,opacity: 1} );
-		var starField = new THREE.Points( starsGeometry, starsMaterial );
-		
-		sceneObject.add( starField );
+	var bounds = {};
 	
-		self.create2D();
-		
-		d3.select("#myRange").on("input", function(d) {
-			
-		     
-			  sceneObject.remove(starField);
-			 time=this.value;
-			 self.createParticleSystem();
-			 
-		  
-		    });
-			
-			
-			
-		
-    };
-	
-
-   self.create2D = function()
-   {
-	   d3.select("svg").remove();
-	   var points=[];
-	   
-	   for ( var i = 0; i < data.length; i ++ ) {
-		       points.push({"X": data[i]['X']/700+data[i]['U']*time/1000, "Y": data[i]['Y']/700+data[i]['V']*time/1000,"concentration":data[i]['concentration']});
-		    
-		   }
-	   var screenx = d3.scaleLinear()
-	       .range([0, 10000]);
-	   
-	   var screeny = d3.scaleLinear()
-	       .range([10000, 0]);
-	   var screensvg=d3.select("#screen")
-	   				.append("svg")
-	   				.attr("width",400)
-	   				.attr("height", 400)
-					
-	   				.append("g")
-	   				.attr("transform", "translate(5,5)");
-					
-					
-	     screensvg.selectAll('circle')
-	               .data(points)
-	               .enter()
-	               .append('circle')
-	               .attr('class','point_value')
-	               .attr("r", 2)
-				   .attr("opacity",0.3)
-	               .attr('cx', function(d) { return -screenx(d.X)/1000; })
-	               .attr('cy', function(d) { return screeny(d.Y)/1000; })
-	               .style('fill', function(d) { return "#ef3b2c"; });
-		d3.select("#dotMap").on("click", function(d) {
-				
-			     
-				 self.create2D();
-				 
-			  
-			    });	
-		d3.select("#heatMap").on("click", function(d) {
-				
-			     
-				
-				 self.createHeatMap();
-				 
-			  
-			    });						
-	  
-   };
-
-	self.createHeatMap=function()
-	{
-		 d3.select("svg").remove();
-	};
-
-
-
-
-    // data loading function
+	// data loading function
     self.loadData = function(file){
 
         // read the csv file
@@ -172,7 +47,10 @@ var ParticleSystem = function() {
                     // Velocity
                     U: Number(d.vx),
                     V: Number(d.vy),
-                    W: Number(d.vz)
+					W: Number(d.vz),
+					
+					phi: d.phi,
+					ident: d.ident
                 });
             })
             // when done loading
@@ -187,6 +65,236 @@ var ParticleSystem = function() {
             });
     };
 
+
+    // create the containment box.
+    // This cylinder is only to guide development.
+    // TODO: Remove after the data has been rendered
+    self.drawContainment = function() {
+
+        // get the radius and height based on the data bounds
+        var radius = (bounds.maxX - bounds.minX)/2.0 + 1;
+        var height = (bounds.maxY - bounds.minY) + 1;
+
+        // create a cylinder to contain the particle system
+        var geometry = new THREE.CylinderGeometry( radius, radius, height, 32 );
+        var material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe: true} );
+        var cylinder = new THREE.Mesh( geometry, material );
+
+        // add the containment to the scene
+        sceneObject.add(cylinder);
+	};
+	
+
+    // creates the particle system
+    self.createParticleSystem = function() {
+		
+		
+		
+        // use self.data to create the particle system
+		// var radius = (bounds.maxX - bounds.minX)/2.0 + 1;
+		// var height = (bounds.maxY - bounds.minY) + 1;
+		 
+		// var dotGeometry = new THREE.Geometry();
+		// // console.log("wah t ");
+		// for(var i=0;i<data.length;i++)
+		// {
+		// 	// console.log("hello");
+		// 	dotGeometry.vertices.push(new THREE.Vector3( data[i]['X'], data[i]['Y'],data[i]['Z']));
+		// 	var dotMaterial = new THREE.PointsMaterial( { size: 3, sizeAttenuation: false } );
+		// 	var dot = new THREE.Points( dotGeometry, dotMaterial );
+		// 	sceneObject.add( dot );
+		// }
+		// get the radius and height based on the data bounds
+		// var radius = (bounds.maxX - bounds.minX)/2.0 + 1;
+		// var height = (bounds.maxY - bounds.minY) + 1;
+		// // console.log(bounds.maxX);
+		// // console.log(height);
+		// // create a cylinder to contain the particle system
+		// // var geometry = new THREE.CylinderGeometry( radius, radius, height, 32 );
+		// // var material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe: true} );
+		// // var cylinder = new THREE.Mesh( geometry, material );
+		var starsGeometry = new THREE.Geometry();
+		// 
+		for ( var i = 0; i < data.length; i ++ ) {
+		// 
+			var star = new THREE.Vector3();
+			
+			
+			star.x= data[i]['X']/700+data[i]['U']*time/1000;
+			star.y =  data[i]['Y']/700+data[i]['V']*time/1000;
+		    star.z =  data[i]['Z']/700+data[i]['W']*time/1000;
+			// console.log(star.y);
+		// 	// // if(Math.abs(star.x)<=radius/2&&Math.abs(star.y)<=height&&Math.abs(star.z)<=radius/2)
+		// 	// {
+			starsGeometry.vertices.push( star );
+			// starsGeometry.computeBoundingSphere();
+		// 	// 	if(data[i]['concentration']<=1)
+				 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
+				 starsGeometry.vertices.size=0.0;
+		// 	// 	else if(data[i]['concentration']<=2)
+		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fc9272"));
+		// 	// 	else if(data[i]['concentration']<=3)
+		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fb6a4a"));
+		// 	// 	  else if(data[i]['concentration']<=4)
+		// 	// 	   starsGeometry.colors.push(new THREE.Color("#ef3b2c"));
+		// 	// 	  else  if(data[i]['concentration']<=5)
+		// 	// 	    starsGeometry.colors.push(new THREE.Color("#cb181d"));
+		// 	// 		else if(data[i]['concentration']<=6)
+		// 	// 		 starsGeometry.colors.push(new THREE.Color("#a50f15"));
+		// 	// 		else
+				// starsGeometry.colors.push(new THREE.Color("#67000d"));
+		// 	// 		  
+		// 	// }
+		// 	
+		// 
+		}
+		// var geometry = new THREE.PlaneGeometry(14,14);
+		// var material = new THREE.MeshBasicMaterial( {color: "#ccebc5", side: THREE.DoubleSide} );
+	 //    plane = new THREE.Mesh( geometry, material );
+		// 
+		var starsMaterial = new THREE.PointsMaterial( {size: 0.09,vertexColors: true, transparent: true, side:THREE.DoubleSide,
+		            sizeAttenuation: true,opacity: 1} );
+		var starField = new THREE.Points( starsGeometry, starsMaterial );
+		// var light = new THREE.AmbientLight( 0x4040 ); // soft white light
+		// sceneObject.add( light );
+		sceneObject.add( starField );
+		// console.log("hello");
+		// plane.position.set(0, 5, z);
+		// sceneObject.add(plane);
+		self.create2D();
+		// 	// console.log("hello");
+		d3.select("#myRange").on("input", function(d) {
+			
+		      // z = this.value / 100.0;
+		      // console.log(z);
+		      // plane.position.set(0, 5, z);
+		      // zBounds[0] = ;
+		      // zBounds[1] = ;
+		      // console.log(z - 0.01 + "-" + z + 0.01);
+			  sceneObject.remove(starField);
+			 time=this.value;
+			 self.createParticleSystem();
+			 document.getElementById("range_input").value = time
+			 
+		   //    for(var i=0;i<starsGeometry.vertices.length;i++)
+			  // {
+				 //  starsGeometry.vertices[i].x=data[i]['X']/700+data[i]['U']*this.value;
+				 //  starsGeometry.vertices[i].y=100;
+				 //  starsGeometry.vertices[i].x=100;
+				 // 
+				 //  // console.log(data[i]['U']*this.value);
+			  // }
+			  // 
+			  //  starField.starsGeometry= starsGeometry;
+			  // // console.log("done");
+			  // sceneObject.add(starField);
+			  // starsGeometry = new THREE.Geometry();
+			  // for ( var i = 0; i < data.length; i ++ ) {
+				 //  star.x= data[i]['X']/700;
+				 //  star.y =  data[i]['Y']/700;
+				 //  star.z =  data[i]['Z']/700;
+				 //  starsGeometry.vertices.push( star );
+				 //  console.log(star.x);
+				 //  // 	// 	if(data[i]['concentration']<=1)
+				 //  		 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
+				 //  }
+				 //  starsMaterial = new THREE.PointsMaterial( {size:0.07,vertexColors: true, transparent: true, side:THREE.DoubleSide,
+				 //              sizeAttenuation: true,opacity: 1} );
+					// starField = new THREE.Points( starsGeometry, starsMaterial );
+					// 		  
+				 //  sceneObject.add( starField );
+				 //  return sceneObject;
+			  // self.createParticleSystem();
+			});
+		// Get the input field
+		var input = document.getElementById("range_input");
+
+		// Execute a function when the user releases a key on the keyboard
+		input.addEventListener("keyup", function(event) {
+		// Number 13 is the "Enter" key on the keyboard
+		if (event.keyCode === 13) {
+			// Cancel the default action, if needed
+			event.preventDefault();
+			// Trigger the button element with a click
+			// document.getElementById("Goto").click();
+			sceneObject.remove(starField);
+			 time=input.value;
+			 self.createParticleSystem();
+			 document.getElementById("myRange").value = time
+			
+		}
+		});
+
+		document.getElementById("Goto").onclick = function () { 
+			var input = document.getElementById("range_input"); 
+			sceneObject.remove(starField);
+			 time=input.value;
+			 self.createParticleSystem();
+			 document.getElementById("myRange").value = time
+		};
+
+
+			
+			
+			
+		
+    };
+	
+
+   self.create2D = function()
+   {
+	   d3.select("svg").remove();
+	   var points=[];
+	   
+	   for ( var i = 0; i < data.length; i ++ ) {
+		   
+		 
+			   // console.log(z);
+			   // console.log(data[i]['X']/700+data[i]['U']*time/1000);
+			   
+		       points.push({"X": data[i]['X']/700+data[i]['U']*time/1000, "Y": data[i]['Y']/700+data[i]['V']*time/1000,"concentration":data[i]['concentration']});
+		    
+		   }
+	   var screenx = d3.scaleLinear()
+	       .range([0, 10000]);
+	   
+	   var screeny = d3.scaleLinear()
+	       .range([10000, 0]);
+	   var screensvg=d3.select("#screen")
+	   				.append("svg")
+	   				.attr("width",500)
+	   				.attr("height", 500)
+					
+	   				.append("g")
+	   				.attr("transform", "translate(5,5)");
+					
+					// .attr("background","blue")
+	   	// screenx.domain([bounds.minX, -bounds.maxX]);
+	   	// screeny.domain([bounds.minY, -bounds.maxY]);
+	   // console.log(bounds.maxX);
+	     screensvg.selectAll('circle')
+	               .data(points)
+	               .enter()
+	               .append('circle')
+	               .attr('class','point_value')
+	               .attr("r", 2)
+				   .attr("opacity",0.3)
+	               .attr('cx', function(d) { return -screenx(d.X)/1000; })
+	               .attr('cy', function(d) { return screeny(d.Y)/1000; })
+	               .style('fill', function(d) { return "#ef3b2c"; });
+					
+				   
+					
+					 
+	  
+   };
+
+
+
+
+
+
+    
     // publicly available functions
     var publiclyAvailable = {
 
@@ -198,11 +306,7 @@ var ParticleSystem = function() {
         // accessor for the particle system
         getParticleSystems : function() {
             return sceneObject;
-        },
-		create2D:function()
-		{
-			self.create2D();
-		}
+        }
     };
 
     return publiclyAvailable;

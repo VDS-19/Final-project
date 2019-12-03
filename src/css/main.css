@@ -24,15 +24,22 @@ path, line {
 
 /* The slider itself */
 .slider {
+  /* display:inline; */
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 100%; /* Full-width */
   height: 25px; /* Specified height */
-  background: #d3d3d3; /* Grey background */
+  background: #eec5fc; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
   transition: opacity .2s;
+}
+
+.text_input {
+  /* display:inline; */
+  width: 25px; /* Full-width */
+  height: 25px; /* Specified height */
 }
 
 /* Mouse-over effects */
@@ -46,13 +53,32 @@ path, line {
   appearance: none;
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  background: #ba03fc; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
 
 .slider::-moz-range-thumb {
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  background: #ba03fc; /* Green background */
   cursor: pointer; /* Cursor on hover */
+}
+
+p
+{
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.button {
+  background-color: #ba03fc;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
