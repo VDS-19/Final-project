@@ -8,7 +8,7 @@ var App = App || {};
 
     // setup the pointer to the scope 'this' variable
     var self = this;
-
+	
     /* Entry point of the application */
     App.start = function()
     {
@@ -17,7 +17,7 @@ var App = App || {};
 
         // initialize the particle system
 		// console.log("waht ");
-        var particleSystem = new ParticleSystem();
+       var particleSystem = new ParticleSystem();
 		
         particleSystem.initialize('data/xyz1.csv');
 
@@ -26,7 +26,7 @@ var App = App || {};
 
         // render the scene
         App.scene.render();
-
+		
     };
 
 }) ();
