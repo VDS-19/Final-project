@@ -8,7 +8,7 @@ var ParticleSystem = function() {
 
     // setup the pointer to the scope 'this' variable
     var self = this;
-
+	var heaton=1;
     // data container
     var data = [];
 
@@ -161,7 +161,10 @@ var ParticleSystem = function() {
 		// console.log("hello");
 		// plane.position.set(0, 5, z);
 		// sceneObject.add(plane);
+		if(heaton==1)
 		self.create2D();
+		else
+		self.createHeatMap();
 		// 	// console.log("hello");
 		d3.select("#myRange").on("input", function(d) {
 			
@@ -176,35 +179,7 @@ var ParticleSystem = function() {
 			 self.createParticleSystem();
 			 document.getElementById("range_input").value = time
 			 
-		   //    for(var i=0;i<starsGeometry.vertices.length;i++)
-			  // {
-				 //  starsGeometry.vertices[i].x=data[i]['X']/700+data[i]['U']*this.value;
-				 //  starsGeometry.vertices[i].y=100;
-				 //  starsGeometry.vertices[i].x=100;
-				 // 
-				 //  // console.log(data[i]['U']*this.value);
-			  // }
-			  // 
-			  //  starField.starsGeometry= starsGeometry;
-			  // // console.log("done");
-			  // sceneObject.add(starField);
-			  // starsGeometry = new THREE.Geometry();
-			  // for ( var i = 0; i < data.length; i ++ ) {
-				 //  star.x= data[i]['X']/700;
-				 //  star.y =  data[i]['Y']/700;
-				 //  star.z =  data[i]['Z']/700;
-				 //  starsGeometry.vertices.push( star );
-				 //  console.log(star.x);
-				 //  // 	// 	if(data[i]['concentration']<=1)
-				 //  		 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
-				 //  }
-				 //  starsMaterial = new THREE.PointsMaterial( {size:0.07,vertexColors: true, transparent: true, side:THREE.DoubleSide,
-				 //              sizeAttenuation: true,opacity: 1} );
-					// starField = new THREE.Points( starsGeometry, starsMaterial );
-					// 		  
-				 //  sceneObject.add( starField );
-				 //  return sceneObject;
-			  // self.createParticleSystem();
+		   
 			});
 		// Get the input field
 		var input = document.getElementById("range_input");
@@ -243,6 +218,7 @@ var ParticleSystem = function() {
 
    self.create2D = function()
    {
+	   heaton=1;
 	   d3.select("svg").remove();
 	   var points=[];
 	   
@@ -279,8 +255,8 @@ var ParticleSystem = function() {
 	               .attr('class','point_value')
 	               .attr("r", 2)
 				   .attr("opacity",0.3)
-	               .attr('cx', function(d) { return -screenx(d.X)/1000; })
-	               .attr('cy', function(d) { return screeny(d.Y)/1000; })
+	               .attr('cx', function(d) {return -screenx(d.X)/1000; })
+	               .attr('cy', function(d) {return screeny(d.Y)/1000; })
 	               .style('fill', function(d) { return "#ef3b2c"; });
 					
 				   d3.select("#dotMap").on("click", function(d) {
@@ -301,33 +277,44 @@ var ParticleSystem = function() {
 						
 		self.createHeatMap=function()
 		{
+			heaton=0;
 			 d3.select("svg").remove();
 			 var points=[];
 			 for(var i=0;i<2500;i++)
 			 {
-			 	 points[i]={color: Number(0),X: Math.round(i/50), Y:i%50};
+			 	 points[i]={color: Number(0), Y: Math.round(i/50)+1, X:i%50+1};
 			 }
 			 var screenx = d3.scaleLinear()
-			     .range([0, 10000]);
+			     .range([0, 400]);
 			 
 			 var screeny = d3.scaleLinear()
-			     .range([10000, 0]);
+			     .range([400, 0]);
 			 for ( var i = 0; i < data.length; i ++ ) 
 			 {
 				 
-			 	var x=screenx(-(data[i]['X']/700+data[i]['U']*time/1000))/10000;
+			 	var x=-(data[i]['X']/700+data[i]['U']*time/1000);
 			 			 
-			 	var y=screeny((data[i]['Y']/700+data[i]['V']*time/1000))/10000;
-				console.log(y);
-				var pos=Math.round(x*50+y);
+			 	var y=-(data[i]['Y']/700+data[i]['V']*time/1000);
 				
-				if(pos<2500 &&pos>0)
+				var pos=Math.round(y*50+y);
+				
+				if(pos<2500&&pos>0)
+				{
 					points[pos]['color']=Number(points[pos]['color'])+Number(1);
 					// console.log(pos);
+				}
+				// else{
+					// console.log(pos);
+				// }
+					
+					
 			 }
 			 
 			 
-			 
+			 // for(var i=0;i<2500;i++)
+			 // {
+			 // 	 console.log(points[i]['X']+" "+ points[i]['Y']+" "+points[i]['color']);
+			 // } 
 			 
 			 var screensvg=d3.select("#screen")
 			 				.append("svg")
@@ -377,33 +364,50 @@ var ParticleSystem = function() {
 					.append("rect")
 					.attr("x", function(d) { return x(d.X) })
 					.attr("y", function(d) { return y(d.Y) })
-					.attr("width", x.bandwidth())
-					.attr("height", y.bandwidth() )
-					.style("fill", function(d) {
+					.attr("width", 10)
+					.attr("height", 10 )
+					.style("fill", function(d) { 
 						// console.log(d.color);
-						if(d.color<2)
+						if(d.color<10)
 						return "#fff7f3";
-						else if (d.color<4)
+						else if (d.color<15)
 						return "#fde0dd";
-						else if (d.color<6)
+						else if (d.color<20)
 						return "#fcc5c0";
-						else if (d.color<8)
+						else if (d.color<25)
 						return "#fa9fb5";
-						else if (d.color<10)
+						else if (d.color<30)
 						return "#f768a1";
-						else if (d.color<12)
+						else if (d.color<35)
 						return "#dd3497";
-						else if (d.color<14)
+						else if (d.color<40)
 						return "#ae017e";
-						else if (d.color<16)
+						else if (d.color<35)
 						return "#7a0177";
-						else if (d.color<18)
+						else if (d.color<40)
 						return "#49006a";
 						
-						else if(d.color>=18)
+						else if(d.color>=40)
 						return "#000000";
+						else
+						return "#fff7f3";
 						
 					} )
+					d3.select("#dotMap").on("click", function(d) {
+							
+						     
+							 self.create2D();
+							 
+						  
+						    });	
+					d3.select("#heatMap").on("click", function(d) {
+							
+						     
+							
+							 self.createHeatMap();
+							 
+						  
+						    });	
 		};
 					
 					 
