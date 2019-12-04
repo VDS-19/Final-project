@@ -95,14 +95,17 @@
 	  
 			<div class="2dpoints col-md-6">
 				<div class="heatmap col-md-6">
-					<button  type="button" id="dotMap" >DotMap</button>
-					<button type="button" id="heatMap" >HeatMap</button>
-					
+					<button  type="button" id="dotMap"  onclick="notshowpic()"  >DotMap</button>
+					<button type="button" id="heatMap" onclick="showpic()">HeatMap</button>	
 				</div>
-				<div id="screen">  
+				<img id="colorbar" src="src/image/colorbar.png"  width="395" height="50" style="position: relative; left: 20px ;display: none"></img>
+				<div id="screen" class="col-md-6">  
          <!-- <p>This is the Density</p> -->
+				
 				</div>
+				
 			</div>
+			
 		</div>
   </div>
 
@@ -123,6 +126,14 @@
 	
 function useClick() {
   modal.style.display = "block";
+}
+function showpic()
+{
+	colorbar.style.display="block";
+}
+function notshowpic()
+{
+	colorbar.style.display="none";
 }
 span.onclick = function() {
   modal.style.display = "none";

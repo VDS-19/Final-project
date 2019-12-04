@@ -368,29 +368,17 @@ var ParticleSystem = function() {
 					.attr("height", 10 )
 					.style("fill", function(d) { 
 						// console.log(d.color);
-						if(d.color<10)
-						return "#fff7f3";
-						else if (d.color<15)
-						return "#fde0dd";
-						else if (d.color<20)
-						return "#fcc5c0";
-						else if (d.color<25)
-						return "#fa9fb5";
+						if(d.color<1)
+						return "#feebe2";
+						else if (d.color<10)
+						return "#fbb4b9";
 						else if (d.color<30)
 						return "#f768a1";
-						else if (d.color<35)
-						return "#dd3497";
 						else if (d.color<40)
-						return "#ae017e";
-						else if (d.color<35)
-						return "#7a0177";
-						else if (d.color<40)
-						return "#49006a";
+						return "#c51b8a";
 						
-						else if(d.color>=40)
-						return "#000000";
 						else
-						return "#fff7f3";
+						return "#7a0177";
 						
 					} )
 					d3.select("#dotMap").on("click", function(d) {
