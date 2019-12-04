@@ -283,7 +283,128 @@ var ParticleSystem = function() {
 	               .attr('cy', function(d) { return screeny(d.Y)/1000; })
 	               .style('fill', function(d) { return "#ef3b2c"; });
 					
-				   
+				   d3.select("#dotMap").on("click", function(d) {
+				   		
+				   	     
+				   		 self.create2D();
+				   		 
+				   	  
+				   	    });	
+				   d3.select("#heatMap").on("click", function(d) {
+				   		
+				   	     
+				   		
+				   		 self.createHeatMap();
+				   		 
+				   	  
+				   	    });	
+						
+		self.createHeatMap=function()
+		{
+			 d3.select("svg").remove();
+			 var points=[];
+			 for(var i=0;i<2500;i++)
+			 {
+			 	 points[i]={color: Number(0),X: Math.round(i/50), Y:i%50};
+			 }
+			 var screenx = d3.scaleLinear()
+			     .range([0, 10000]);
+			 
+			 var screeny = d3.scaleLinear()
+			     .range([10000, 0]);
+			 for ( var i = 0; i < data.length; i ++ ) 
+			 {
+				 
+			 	var x=screenx(-(data[i]['X']/700+data[i]['U']*time/1000))/10000;
+			 			 
+			 	var y=screeny((data[i]['Y']/700+data[i]['V']*time/1000))/10000;
+				console.log(y);
+				var pos=Math.round(x*50+y);
+				
+				if(pos<2500 &&pos>0)
+					points[pos]['color']=Number(points[pos]['color'])+Number(1);
+					// console.log(pos);
+			 }
+			 
+			 
+			 
+			 
+			 var screensvg=d3.select("#screen")
+			 				.append("svg")
+			 				.attr("width",400)
+			 				.attr("height", 400)
+			 					
+			 				.append("g")
+			 				.attr("transform", "translate(5,5)");
+			var myGroups =[];
+			var myVars =[];
+			
+			for(var i=1;i<=50;i++) 	
+							{
+								myGroups[i-1]=i;
+								myVars[i-1]=i;
+							}
+			
+				
+				var x = d3.scaleBand()
+				  .range([ 0, 400 ])
+				  .domain(myGroups)
+				  
+				screensvg.append("g")
+				  .attr("transform", "translate(0," + 400 + ")")
+				  .call(d3.axisBottom(x))
+				var y = d3.scaleBand()
+				  .range([ 400, 0 ])
+				  .domain(myVars)
+				  
+				screensvg.append("g")
+				  .call(d3.axisLeft(y))
+				
+				  
+			   // screensvg.selectAll('circle')
+			   //           .data(points)
+			   //           .enter()
+			   //           .append('circle')
+			   //           .attr('class','point_value')
+			   //           .attr('cx', function(d) { return -screenx(d.X)/1000; })
+			   //           .attr('cy', function(d) {  return screeny(d.Y)/1000; })
+			   //           .style('fill', function(d) { return "#ef3b2c"; });
+						//  
+						 
+				screensvg.selectAll()
+					.data(points)
+					.enter()
+					.append("rect")
+					.attr("x", function(d) { return x(d.X) })
+					.attr("y", function(d) { return y(d.Y) })
+					.attr("width", x.bandwidth())
+					.attr("height", y.bandwidth() )
+					.style("fill", function(d) {
+						// console.log(d.color);
+						if(d.color<2)
+						return "#fff7f3";
+						else if (d.color<4)
+						return "#fde0dd";
+						else if (d.color<6)
+						return "#fcc5c0";
+						else if (d.color<8)
+						return "#fa9fb5";
+						else if (d.color<10)
+						return "#f768a1";
+						else if (d.color<12)
+						return "#dd3497";
+						else if (d.color<14)
+						return "#ae017e";
+						else if (d.color<16)
+						return "#7a0177";
+						else if (d.color<18)
+						return "#49006a";
+						
+						else if(d.color>=18)
+						return "#000000";
+						
+					} )
+		};
 					
 					 
 	  
