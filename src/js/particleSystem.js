@@ -254,7 +254,7 @@ var ParticleSystem = function() {
 	               .append('circle')
 	               .attr('class','point_value')
 	               .attr("r", 2)
-				   .attr("opacity",0.3)
+				   .attr("opacity",0.04)
 	               .attr('cx', function(d) {return -screenx(d.X)/1000; })
 	               .attr('cy', function(d) {return screeny(d.Y)/1000; })
 	               .style('fill', function(d) { return "#ef3b2c"; });
