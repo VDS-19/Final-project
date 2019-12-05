@@ -103,8 +103,26 @@
 	  
 	</div>
 	<div class="slidecontainer col-md-12">
-		<p>See the universe in the future!</p>
-    <div class="row">
+    <div class="row col-md-12">
+		<p class="col-md-3">See the universe in the future!</p>
+    <div class="dropdown col-md-2">
+      <button id = "dropbtn" class="dropbtn">Color by distance</button>
+      <div class="dropdown-content">
+        <input class="button2 col-md-12" style="text-align: left;" type="button" id="color1" name="color1" value="Color by distance">
+        <input class="button2 col-md-12" style="text-align: left;" type="button" id="color2" name="color2" value="Color by speed">
+        <input class="button2 col-md-12" style="text-align: left;" type="button" id="color3" name="color3" value="Color by accelaration">
+
+      </div>
+    </div>
+    <div class="col-md-7">
+      <input type="checkbox" id="checkbox1">
+      <label for="checkbox1" style="color:white">Show animation  </label>
+      <input type="checkbox" id="checkbox2">
+      <label for="checkbox2" style="color:white">Show trajectory  </label>
+    </div>
+    
+    </div>
+    <div class="row col-md-12">
     <div class="col-md-9">
 	  <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
     </div>

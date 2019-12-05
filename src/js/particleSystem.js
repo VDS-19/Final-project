@@ -4,9 +4,13 @@
 /* Get or create the application global variable */
 var App = App || {};
 var time=0;
-var animate = true
+var animate = false
+var trajectory = false
+var colorby = 1
 
 var colorSequence = d3.scaleSequential(d3.interpolateBlues).domain([0, 100]);
+var colorSequence2 = d3.scaleSequential(d3.interpolateReds).domain([0, 100]);
+var colorSequence3 = d3.scaleSequential(d3.interpolatePurples).domain([0, 100]);
 
 var ParticleSystem = function() {
 
@@ -19,6 +23,7 @@ var ParticleSystem = function() {
     // scene graph group for the particle system
     var sceneObject = new THREE.Group();
 	var plane;
+	var starField;
     // bounds of the data
 	var bounds = {};
 	
@@ -138,6 +143,32 @@ var ParticleSystem = function() {
 			
 		// }
 		// console.log(Math.max.apply(null, distances))
+		// var vs = []
+		// for ( var i = 0; i < data.length; i ++ ) {
+		// 	var star = new THREE.Vector3();
+		// 	star.vx= data[i]['U'];
+		// 	star.vy =  data[i]['V'];
+		// 	star.vz =  data[i]['W'];
+		// 	var v = Math.sqrt(star.vx*star.vx + star.vy*star.vy + star.vz*star.vz);
+		// 	vs.push(v) // Min: 34.790 Max: 66.313
+			
+		// }
+		// console.log(Math.min.apply(null, vs))	// 6.578581400437909
+		// console.log(Math.max.apply(null, vs))	// 988.3911816266213
+
+		// var as = []
+		// for ( var i = 0; i < data.length; i ++ ) {
+		// 	var star = new THREE.Vector3();
+		// 	star.ax= data[i]['AX'];
+		// 	star.ay =  data[i]['AY'];
+		// 	star.az =  data[i]['AZ'];
+		// 	var a = Math.sqrt(star.ax*star.ax + star.ay*star.ay + star.az*star.az);
+		// 	as.push(a) // Min: 34.790 Max: 66.313
+			
+		// }
+		// console.log(Math.min.apply(null, as))	// 1.0316056500918542
+		// console.log(Math.max.apply(null, as))	// 2950.1313892441344
+
 
 		for ( var i = 0; i < data.length; i ++ ) {
 		// 
@@ -151,11 +182,23 @@ var ParticleSystem = function() {
 			starsGeometry.vertices.push( star );
 			// starsGeometry.computeBoundingSphere();
 			// 	// 	if(data[i]['concentration']<=1)
-			var distance = Math.sqrt(star.x*star.x + star.y*star.y + star.z*star.z);
+			
 			var color = new THREE.Color();
 			// console.log((data[i]['X']-bounds.minX)/(bounds.maxX-bounds.minX)*100)
 			// color.set(colorSequence((data[i]['X']-bounds.minX)/(bounds.maxX-bounds.minX)*100));
-			color.set(colorSequence((distance-34.790)/(66.313-34.790)*100));
+			if (colorby==1) {
+				var distance = Math.sqrt(star.x*star.x + star.y*star.y + star.z*star.z);
+				color.set(colorSequence((distance-34.790)/(66.313-34.790)*100));
+			}
+			else if (colorby==2) {
+				var velocity = Math.sqrt(data[i]['U']*data[i]['U'] + data[i]['V']*data[i]['V'] + data[i]['W']*data[i]['W']);
+				color.set(colorSequence2((velocity-6.6)/(500-6.6)*100));
+			}
+			else {
+				var acc = Math.sqrt(data[i]['AX']*data[i]['AX'] + data[i]['AY']*data[i]['AY'] + data[i]['AZ']*data[i]['AZ']);
+				color.set(colorSequence3((acc-1)/(50-1)*100));
+			}
+			
 			starsGeometry.colors.push(color);
 			// starsGeometry.colors.push(new THREE.Color("#fcbba1"));
 			// /
@@ -167,7 +210,7 @@ var ParticleSystem = function() {
 		// 
 		var starsMaterial = new THREE.PointsMaterial( {size: 0.09,vertexColors: true, transparent: true, side:THREE.DoubleSide,
 		            sizeAttenuation: true,opacity: 1} );
-		var starField = new THREE.Points( starsGeometry, starsMaterial );
+		starField = new THREE.Points( starsGeometry, starsMaterial );
 		// var light = new THREE.AmbientLight( 0x4040 ); // soft white light
 		// sceneObject.add( light );
 		sceneObject.add( starField );
@@ -182,7 +225,10 @@ var ParticleSystem = function() {
 		d3.select("#myRange").on("input", function(d) {
 			
 		      
-			sceneObject.remove(starField);
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
 			time=this.value;
 			self.createParticleSystem();
 			document.getElementById("range_input").value = time
@@ -200,7 +246,10 @@ var ParticleSystem = function() {
 			// Cancel the default action, if needed
 			event.preventDefault();
 			
-			sceneObject.remove(starField);
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
 			 time=input.value;
 			 self.createParticleSystem();
 			 document.getElementById("myRange").value = time
@@ -211,12 +260,45 @@ var ParticleSystem = function() {
 
 		document.getElementById("Goto").onclick = function () { 
 			var input = document.getElementById("range_input"); 
-			sceneObject.remove(starField);
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
 			 time=input.value;
 			 self.createParticleSystem();
 			 document.getElementById("myRange").value = time
 			 animate = false
 		};		
+		document.getElementById("color1").onclick = function () { 
+			colorby = 1
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
+			 self.createParticleSystem();
+			 document.getElementById("dropbtn").innerHTML = "Color by distance";
+		};	
+		document.getElementById("color2").onclick = function () { 
+			colorby = 2
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
+			 self.createParticleSystem();
+			 document.getElementById("dropbtn").innerHTML = "Color by velocity";
+		};	
+
+		document.getElementById("color3").onclick = function () { 
+			colorby = 3
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
+			 self.createParticleSystem();
+			 document.getElementById("dropbtn").innerHTML = "Color by accelaration";
+		};	
+
+
 		
 	};
 	
@@ -226,6 +308,9 @@ var ParticleSystem = function() {
 
 	function change() {
 		if (animate == true) {
+			if (trajectory == false) {
+				sceneObject.remove(starField);
+			}
 			time=counter;
 			self.createParticleSystem();
 			document.getElementById("myRange").value = time
@@ -237,6 +322,30 @@ var ParticleSystem = function() {
 			}
 		}
 		};
+
+	d3.select("#checkbox1").on("change",update1)
+	d3.select("#checkbox2").on("change",update2)
+	// d3.select("#checkbox1").on("change",update1).property('checked','true')
+	// d3.select("#checkbox2").on("change",update2).property('checked','true')
+	
+	function update1(){
+		if(d3.select("#checkbox1").property("checked")){
+			animate=true
+		} else {
+			animate=false		
+		}			
+	}
+	function update2(){
+		if(d3.select("#checkbox2").property("checked")){
+			trajectory=true
+		} else {
+			trajectory=false
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}		
+		}			
+	}
 
 
    self.create2D = function()
