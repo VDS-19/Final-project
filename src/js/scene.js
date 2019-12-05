@@ -25,7 +25,7 @@ var Scene = function(options) {
     var light = new THREE.DirectionalLight( 0xffffff, 1.5);
     // Position the light out from the scene, pointing at the origin
     light.position.set(5,5,5);
-    light.lookAt(new THREE.Vector3(-1000,-1000,-1000));
+    light.lookAt(new THREE.Vector3(-5,-5,-5));
 
     // add the light to the camera and the camera to the scene
     self.camera.add(light);
