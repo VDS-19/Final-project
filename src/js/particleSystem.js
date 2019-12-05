@@ -1,5 +1,6 @@
 "use strict";
 
+
 /* Get or create the application global variable */
 var App = App || {};
 var time=0;
@@ -49,17 +50,16 @@ var ParticleSystem = function() {
                     V: Number(d.vy),
 					W: Number(d.vz),
 					
+			
 					phi: d.phi,
-					ident: d.ident
+					ident: d.ident,
+					
+					
                 });
             })
             // when done loading
             .get(function() {
-                // draw the containment cylinder
-                // TODO: Remove after the data has been rendered
-                // self.drawContainment();
-
-                // create the particle system
+               
                 self.createParticleSystem();
 				// console.log("your message heer");
             });
@@ -123,30 +123,14 @@ var ParticleSystem = function() {
 			star.x= data[i]['X']/700+data[i]['U']*time/1000;
 			star.y =  data[i]['Y']/700+data[i]['V']*time/1000;
 		    star.z =  data[i]['Z']/700+data[i]['W']*time/1000;
-			// console.log(star.y);
-		// 	// // if(Math.abs(star.x)<=radius/2&&Math.abs(star.y)<=height&&Math.abs(star.z)<=radius/2)
-		// 	// {
+			
 			starsGeometry.vertices.push( star );
 			// starsGeometry.computeBoundingSphere();
 		// 	// 	if(data[i]['concentration']<=1)
+				
 				 starsGeometry.colors.push(new THREE.Color("#fcbba1"));
-				 starsGeometry.vertices.size=0.0;
-		// 	// 	else if(data[i]['concentration']<=2)
-		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fc9272"));
-		// 	// 	else if(data[i]['concentration']<=3)
-		// 	// 	 starsGeometry.colors.push(new THREE.Color("#fb6a4a"));
-		// 	// 	  else if(data[i]['concentration']<=4)
-		// 	// 	   starsGeometry.colors.push(new THREE.Color("#ef3b2c"));
-		// 	// 	  else  if(data[i]['concentration']<=5)
-		// 	// 	    starsGeometry.colors.push(new THREE.Color("#cb181d"));
-		// 	// 		else if(data[i]['concentration']<=6)
-		// 	// 		 starsGeometry.colors.push(new THREE.Color("#a50f15"));
-		// 	// 		else
-				// starsGeometry.colors.push(new THREE.Color("#67000d"));
-		// 	// 		  
-		// 	// }
-		// 	
-		// 
+				// /
+	
 		}
 		// var geometry = new THREE.PlaneGeometry(14,14);
 		// var material = new THREE.MeshBasicMaterial( {color: "#ccebc5", side: THREE.DoubleSide} );
@@ -168,12 +152,7 @@ var ParticleSystem = function() {
 		// 	// console.log("hello");
 		d3.select("#myRange").on("input", function(d) {
 			
-		      // z = this.value / 100.0;
-		      // console.log(z);
-		      // plane.position.set(0, 5, z);
-		      // zBounds[0] = ;
-		      // zBounds[1] = ;
-		      // console.log(z - 0.01 + "-" + z + 0.01);
+		      
 			  sceneObject.remove(starField);
 			 time=this.value;
 			 self.createParticleSystem();
@@ -190,8 +169,7 @@ var ParticleSystem = function() {
 		if (event.keyCode === 13) {
 			// Cancel the default action, if needed
 			event.preventDefault();
-			// Trigger the button element with a click
-			// document.getElementById("Goto").click();
+			
 			sceneObject.remove(starField);
 			 time=input.value;
 			 self.createParticleSystem();
@@ -224,10 +202,7 @@ var ParticleSystem = function() {
 	   
 	   for ( var i = 0; i < data.length; i ++ ) {
 		   
-		 
-			   // console.log(z);
-			   // console.log(data[i]['X']/700+data[i]['U']*time/1000);
-			   
+
 		       points.push({"X": data[i]['X']/700+data[i]['U']*time/1000, "Y": data[i]['Y']/700+data[i]['V']*time/1000,"concentration":data[i]['concentration']});
 		    
 		   }
@@ -240,14 +215,9 @@ var ParticleSystem = function() {
 	   				.append("svg")
 	   				.attr("width",500)
 	   				.attr("height", 500)
-					
 	   				.append("g")
 	   				.attr("transform", "translate(5,5)");
 					
-					// .attr("background","blue")
-	   	// screenx.domain([bounds.minX, -bounds.maxX]);
-	   	// screeny.domain([bounds.minY, -bounds.maxY]);
-	   // console.log(bounds.maxX);
 	     screensvg.selectAll('circle')
 	               .data(points)
 	               .enter()
@@ -303,24 +273,17 @@ var ParticleSystem = function() {
 					points[pos]['color']=Number(points[pos]['color'])+Number(1);
 					// console.log(pos);
 				}
-				// else{
-					// console.log(pos);
-				// }
+
 					
 					
 			 }
 			 
-			 
-			 // for(var i=0;i<2500;i++)
-			 // {
-			 // 	 console.log(points[i]['X']+" "+ points[i]['Y']+" "+points[i]['color']);
-			 // } 
-			 
 			 var screensvg=d3.select("#screen")
 			 				.append("svg")
+							.on("mouseover", handleMouseOver)
+							.on("mouseout", handleMouseOut)
 			 				.attr("width",400)
 			 				.attr("height", 400)
-			 					
 			 				.append("g")
 			 				.attr("transform", "translate(5,5)");
 			var myGroups =[];
@@ -347,16 +310,7 @@ var ParticleSystem = function() {
 				screensvg.append("g")
 				  .call(d3.axisLeft(y))
 				
-				  
-			   // screensvg.selectAll('circle')
-			   //           .data(points)
-			   //           .enter()
-			   //           .append('circle')
-			   //           .attr('class','point_value')
-			   //           .attr('cx', function(d) { return -screenx(d.X)/1000; })
-			   //           .attr('cy', function(d) {  return screeny(d.Y)/1000; })
-			   //           .style('fill', function(d) { return "#ef3b2c"; });
-						//  
+
 						 
 				screensvg.selectAll()
 					.data(points)
@@ -366,6 +320,7 @@ var ParticleSystem = function() {
 					.attr("y", function(d) { return y(d.Y) })
 					.attr("width", 10)
 					.attr("height", 10 )
+					
 					.style("fill", function(d) { 
 						// console.log(d.color);
 						if(d.color<1)
@@ -396,8 +351,41 @@ var ParticleSystem = function() {
 							 
 						  
 						    });	
-		};
+							
+					function handleMouseOver(d, i) {
+						 // self.createFlot();
+						}
+					function handleMouseOut(d, i) {
+						// console.log("byebye");
+						}
 					
+		};
+		self.createFlot=function()
+		{
+			
+			
+			
+		};
+		
+		
+		self.createPhi=function()
+		{
+			var screensvg=d3.select("#Phiscreen")
+							.append("svg")
+							.attr("width",10000)
+							.attr("height", 10000)
+							.append("g")
+							.attr("transform", "translate(5,5)");
+							
+			screensvg.selectAll('circle')
+			          .enter()
+			          .append('circle')
+			          .attr('class','point_value')
+			          .attr("r", 100000)
+			          .attr('cx', function(d) {return 300 })
+			          .attr('cy', function(d) {return 300})
+			          .style('fill', function(d) { return "#ef3b2c"; });
+		};
 					 
 	  
    };
@@ -408,7 +396,7 @@ var ParticleSystem = function() {
 
 
     
-    // publicly available functions
+
     var publiclyAvailable = {
 
         // load the data and setup the system

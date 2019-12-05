@@ -9,6 +9,12 @@ body { margin: 0; }
 	width: 90%; height: 500px;
 	background=#ccebc5;
 }
+
+#Phiscreen
+{
+	width: 90%; height: 100px;
+	background=#ccebc5;
+}
 /* SVG styling */
 svg {
     font-family: helvetica, sans-serif;
