@@ -72,7 +72,17 @@ var ParticleSystem = function() {
 			})
             // when done loading
             .get(function() {
-               
+				
+				var newdata = []
+				var countnum = 0
+				for ( var i = 0; i < data.length; i ++ ) {
+					if (countnum == 3){
+						newdata.push(data[i]);
+						countnum = 0;
+					};
+					countnum++;
+				}
+				data = newdata
                 self.createParticleSystem();
 				// console.log("your message heer");
 			});
@@ -188,7 +198,7 @@ var ParticleSystem = function() {
 		// console.log(Math.min.apply(null, idens))	// 648
 		// console.log(Math.max.apply(null, idens))	// 1499115
 
-
+	
 		for ( var i = 0; i < data.length; i ++ ) {
 		// 
 			var star = new THREE.Vector3();
@@ -197,6 +207,7 @@ var ParticleSystem = function() {
 			star.y =  data[i]['Y']/700+data[i]['V']*time/1000+1/2*data[i]['AY']*time*time/10000000;
 			star.z =  data[i]['Z']/700+data[i]['W']*time/1000+1/2*data[i]['AZ']*time*time/10000000;
 			
+
 			starsGeometry.vertices.push( star );
 			// starsGeometry.computeBoundingSphere();
 			// 	// 	if(data[i]['concentration']<=1)
@@ -236,7 +247,7 @@ var ParticleSystem = function() {
 	 //    plane = new THREE.Mesh( geometry, material );
 		// 
 		var starsMaterial = new THREE.PointsMaterial( {size: 0.09,vertexColors: true, transparent: true, side:THREE.DoubleSide,
-		            sizeAttenuation: true,opacity: 1} );
+					sizeAttenuation: true,opacity: 1} );
 		starField = new THREE.Points( starsGeometry, starsMaterial );
 		// var light = new THREE.AmbientLight( 0x4040 ); // soft white light
 		// sceneObject.add( light );
@@ -388,7 +399,8 @@ var ParticleSystem = function() {
 			while (sceneObject.children.length)
 				{
 					sceneObject.remove(sceneObject.children[0]);
-				}		
+				}
+			self.createParticleSystem();		
 		}			
 	}
 
