@@ -11,6 +11,7 @@ var colorby = 1
 var colorSequence = d3.scaleSequential(d3.interpolateBlues).domain([0, 100]);
 var colorSequence2 = d3.scaleSequential(d3.interpolateReds).domain([0, 100]);
 var colorSequence3 = d3.scaleSequential(d3.interpolatePurples).domain([0, 100]);
+var colorSequence4 = d3.scaleSequential(d3.interpolateOranges).domain([0, 100]);
 
 var ParticleSystem = function() {
 
@@ -169,11 +170,28 @@ var ParticleSystem = function() {
 		// console.log(Math.min.apply(null, as))	// 1.0316056500918542
 		// console.log(Math.max.apply(null, as))	// 2950.1313892441344
 
+		// var phis = []
+		// for ( var i = 0; i < data.length; i ++ ) {
+		// 	var phi = data[i]['phi'];
+		// 	phis.push(phi) // Min: 34.790 Max: 66.313
+			
+		// }
+		// console.log(Math.min.apply(null, phis))	// -384906.875
+		// console.log(Math.max.apply(null, phis))	// 366167.656
+
+		// var idens = []
+		// for ( var i = 0; i < data.length; i ++ ) {
+		// 	var iden = data[i]['ident'];
+		// 	idens.push(iden) // Min: 34.790 Max: 66.313
+			
+		// }
+		// console.log(Math.min.apply(null, idens))	// 648
+		// console.log(Math.max.apply(null, idens))	// 1499115
+
 
 		for ( var i = 0; i < data.length; i ++ ) {
 		// 
 			var star = new THREE.Vector3();
-			
 			
 			star.x= data[i]['X']/700+data[i]['U']*time/1000+1/2*data[i]['AX']*time*time/10000000;
 			star.y =  data[i]['Y']/700+data[i]['V']*time/1000+1/2*data[i]['AY']*time*time/10000000;
@@ -194,10 +212,19 @@ var ParticleSystem = function() {
 				var velocity = Math.sqrt(data[i]['U']*data[i]['U'] + data[i]['V']*data[i]['V'] + data[i]['W']*data[i]['W']);
 				color.set(colorSequence2((velocity-6.6)/(500-6.6)*100));
 			}
-			else {
+			else if (colorby==3) {
 				var acc = Math.sqrt(data[i]['AX']*data[i]['AX'] + data[i]['AY']*data[i]['AY'] + data[i]['AZ']*data[i]['AZ']);
 				color.set(colorSequence3((acc-1)/(50-1)*100));
 			}
+			else if (colorby==4) {
+				var phi = Math.sqrt(data[i]['phi']);
+				color.set(colorSequence4((phi+384906.875)/(366167.656+384906.875)*100));
+			}
+			else {
+				var phi = Math.sqrt(data[i]['ident']);
+				color.set(colorSequence4((phi-648)/(800-648)*100));
+			}
+			
 			
 			starsGeometry.colors.push(color);
 			// starsGeometry.colors.push(new THREE.Color("#fcbba1"));
@@ -296,6 +323,24 @@ var ParticleSystem = function() {
 				}
 			 self.createParticleSystem();
 			 document.getElementById("dropbtn").innerHTML = "Color by accelaration";
+		};	
+		document.getElementById("color4").onclick = function () { 
+			colorby = 4
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
+			 self.createParticleSystem();
+			 document.getElementById("dropbtn").innerHTML = "Color by potential";
+		};	
+		document.getElementById("color5").onclick = function () { 
+			colorby = 5
+			while (sceneObject.children.length)
+				{
+					sceneObject.remove(sceneObject.children[0]);
+				}
+			 self.createParticleSystem();
+			 document.getElementById("dropbtn").innerHTML = "Color by identity";
 		};	
 
 
